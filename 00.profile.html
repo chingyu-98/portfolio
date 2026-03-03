@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Ching Yu Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f8f8f8;
+      text-align: center;
+    }
+
+    header {
+      padding: 40px 20px;
+      background-color: #222;
+      color: white;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: black;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>作品集</h1>
+  <p>CSS/HTML 練習作品</p>
+</header>
+
+<section class="projects">
+  <a href="01.microsoft首頁仿切/microsoft.html" class="card">microsoft首頁仿切</a>
+  <a href="02.RWD/RWD.html" class="card">頁面RWD</a>
+  <a href="03.planet/planet.html" class="card">行星繞行.animation</a>
+  <a href="04.小精靈/Pac-Man.html" class="card">小精靈.animation</a>
+  <a href="05.loading-SASS/loading.html" class="card">loading-SASS</a>
+  <a href="06.猜拳遊戲/猜拳遊戲.html" class="card">猜拳遊戲.js</a>
+  <a href="07.住宿名單/住宿名單.html" class="card">住宿名單.js</a>
+  <a href="08.BMI-v2/BMI-v2.html" class="card">BMI計算.js</a>
+  <a href="09.色辨遊戲-v2/色辨遊戲-v2.html" class="card">色辨遊戲.js</a>
+  <a href="10.創造玩家/創造玩家v2.html" class="card">創造玩家.js</a>
+  <a href="12.天氣卡/天氣卡.html" class="card">天氣卡.js</a>
+</section>
+
+</body>
+</html>
