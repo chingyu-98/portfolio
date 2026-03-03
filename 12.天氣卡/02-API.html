@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API</title>
+</head>
+<body>
+<div id="container"></div>
+
+<script>
+// 什麼是API
+// https://www.youtube.com/watch?v=zvKadd9Cflc
+// 請求 (Request)
+// 回覆 (Response)
+
+// HTTP協定
+// 方法 (Method)
+// GET(獲取資料-從伺服器(第三方))、POST(送出新增/修改的資料-送到伺服器)
+
+// Fetch發請求
+// 第一個參數是放API位置(獲取資料的來源)
+const container = document.querySelector('#container');
+let content = '';
+
+// 如何將email印到畫面上?
+const url = 'https://jsonplaceholder.typicode.com/users';
+//1.從url取得資料
+fetch(url) //fetch()獲取函數 //不可在後加; 代表結束
+ //2.然後  傳出回應
+ .then(function(reasponse){
+  //3.將回應用jason格式傳出
+    return reasponse.json();
+  })//不可在後加; 代表結束
+   //4.然後  接收轉換過後的資料
+  .then(function(data){
+    //5.印出接收後的資料
+    content = data[0].email;
+    console.log(data);
+    console.log(data[0].email);
+    content = data[0].email;
+    //方法1
+    // container.textContent = content;
+
+    //方法2
+    render();
+  });
+
+  function render(){
+    container.textContent = content;
+  };
+
+// 同步(sync)與非同步(async)
+// 同步(sync)是輪流跑，在程式裡就是輪流執行(有先後)
+// 非同步(async)是一起跑，在程式裡就是一起執行
+// Fetch是一個非同步(async)的動作，同步可以理解成最後執行
+</script>
+</body>
+</html>

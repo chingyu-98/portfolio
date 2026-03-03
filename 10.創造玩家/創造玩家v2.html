@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創造玩家</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background{
+  background: url(./img/background.jpg);
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background-color: rgba(209, 232, 240, 0.381);
+  width: 45%;
+  height: 80%;
+  border: 3px solid white;
+  border-radius: 20px;
+  padding: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.options {
+  display: flex;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+#customize {
+  font-size: 18px;
+}
+
+.role-btn {
+  background-color: rgb(236, 235, 235);
+  font-size: 5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+#change-role-btn {
+  padding: 8px 16px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.active:hover {
+  background-color: orange;
+  color: white;
+}
+
+input[name = 'role']:checked+label{
+  background-color:  orange;
+  color: white;
+}
+
+.change-role-box{
+  display: flex;
+  justify-content: center;
+}
+
+
+</style>
+</head>
+<body>
+<div class="background">
+<form class="container">
+<label class="options">
+  玩家名稱：
+  <input type="text" id="name">
+</label>
+
+<div class="options">
+  <p>選擇種族：</p>
+  <label for="human">
+    <input type="radio" id="human" name="race" value="1" class="race">
+    人類
+  </label>
+  <label for="orc">
+    <input type="radio" id="orc" name="race" value="2" class="race">
+    獸人
+  </label>
+  <label for="elf">
+    <input type="radio" id="elf" name="race" value="3" class="race">
+    精靈
+  </label>
+</div>
+
+<hr>
+
+<div class="options">
+  <p>選擇職業：</p>
+  <input type="radio" name="role" id="role-1" class="role" value="戰士" hidden>
+  <label for="role-1" class="role-btn active" title="戰士">⚔️</label>
+  <input type="radio" name="role" id="role-2" class="role" value="弓箭手" hidden>
+  <label for="role-2" class="role-btn active" title="弓箭手">🏹</label>
+  <input type="radio" name="role" id="role-3" class="role" value="魔法師" hidden>
+  <label for="role-3" class="role-btn active" title="魔法師">🔮</label>
+
+</div>
+<div class="change-role-box">
+  <button type="button" id="change-role-btn" class="active">確定職業</button>
+</div>
+<hr>
+<br>
+
+<p>
+  姓名：
+  <span id="name-output"></span>
+</p>
+<p>種族：
+  <span id="race-output"></span>
+</p>
+<p>職業：
+  <span id="job-output">初心者</span>
+</p>
+</form>
+</div>
+<script>
+// 當玩家選擇職業後，按下確定轉職按鈕，就會改變玩家的職業並顯示在畫面上
+const player = {
+  name:'',
+  race:'',
+  job:'初心者',
+};
+
+const nameInput =document.querySelector('#name');
+const nameOutput =document.querySelector('#name-output');
+const raceInputAll =document.querySelectorAll('.race');
+const raceOutput =document.querySelector('#race-output');
+const jobOutput=document.querySelector('#job-output')
+const roleBtnAll =document.querySelectorAll('.role');
+const changeRoleBtn =document.querySelector('#change-role-btn')
+
+//輸入姓名                //輸入事件(輸入時立即改變)
+nameInput.addEventListener('input', () => {
+  player.name = nameInput.value;
+  //呼叫function
+  render();
+});
+
+//選擇種族
+raceInputAll.forEach(item => {
+  item.addEventListener('change', () =>{
+    console.log('change event fired, value:', item.value);
+    switch(item.value){
+      case '1':
+        player.race ='人類';
+        break;
+      case '2':
+        player.race ='獸人';
+        break;
+      case '3':
+        player.race ='精靈';
+        break;
+    };
+    render();
+  });
+});
+
+//選擇職業
+roleBtnAll.forEach((btn) => {
+  btn.addEventListener('change', () =>{
+   selectJob = btn.value;
+  });
+});
+
+changeRoleBtn.addEventListener('click', function(){
+    jobOutput.textContent = selectJob
+});
+
+//使輸入進物件的資訊立即出現在下方
+function render(){
+  nameOutput.textContent = player.name;
+  raceOutput.textContent  = player.race;
+};
+
+</script>
+</body>
+</html>

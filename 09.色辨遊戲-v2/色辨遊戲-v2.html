@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-radius: 10px;
+    }
+
+    #container {
+      width: 100%;
+      height: 100dvh;
+      border-radius: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #F06060;
+    }
+
+    #cube-box {
+      width: 500px;
+      height: 500px;
+      background-color: #ddd;
+      padding: 10px;
+      box-shadow:  5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-wrap: wrap;
+      cursor: pointer;
+    }
+
+    .cube {
+      border: #ddd 5px solid;
+      background: green;
+      width: 50%;
+      height: 50%;
+    }
+
+    .answer {
+      opacity: 0.7;
+    }
+
+    .score-box{
+      width: 160px;
+      height: 80px;
+      background-color:  #3c4ed4;
+      border-radius: 5px;
+      border: 5px solid #ddde;
+      color: #ddd;
+      font-size: 32px;
+      box-shadow:  5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+
+      position: absolute;
+      left: 5%;
+      top: 20px;
+      
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding-left: 20px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <section id="container">
+    <div class="score-box"></div>
+    <div id="cube-box">
+      <!-- <div class="cube answer"></div>
+      <div class="cube"></div>
+      <div class="cube"></div>
+      <div class="cube"></div> -->
+    </div>
+  </section>
+
+  <script>
+    const cubeBox = document.querySelector('#cube-box');
+    let clickcount = 0;
+    level = 2;
+    score = 0;
+    
+    //產生下一關
+    creatCube();
+   
+    //設定下一關函式
+    function creatCube() {
+      // 產生四個方塊, 隨機產生0~3
+      const randomIndex = Math.floor(Math.random() * 4);
+      
+      let content = '';
+      
+      for (let i = 0; i < level ** 2; i++) {
+        if (i === randomIndex) {
+          content +=`<div class="cube answer"></div>`;
+        } else {
+          content +=`<div class="cube"></div>`; 
+        }
+      }
+      cubeBox.innerHTML = content;
+      
+      changeColor();//取得新顏色
+      
+      play();
+    }
+
+    function play(){
+      //設定開始玩函式
+      const answerCube = document.querySelector('.answer');
+      answerCube.addEventListener('click', function(){
+        clickcount++;
+        
+        //成績的累加
+        score += Math.floor(level * clickcount * 0.8);
+        console.log(score);
+        const scoreTotal=document.querySelector('.score-box')
+        scoreTotal.textContent = `分數:${score}`
+        console.log(scoreTotal);
+        
+
+
+        //每關的過關次數
+        if (clickcount === level) {
+          level++;
+          clickcount = 0;
+        }
+       
+        creatCube();
+      })
+    }
+
+    function changeColor() {
+      //設定方塊換顏色函數
+      const allCube =document.querySelectorAll('.cube') 
+      const r = Math.floor(Math.random() * 200);
+      const g = Math.floor(Math.random() * 200);
+      const b = Math.floor(Math.random() * 200);
+      const color = `rgb(${r}, ${g}, ${b})`;
+      //尺寸變化設定
+      const size = 100 / level;
+
+      allCube.forEach(function(item) {
+      //顏色變化
+      item.style.background = color;
+      //寬變化
+      item.style.width = `${size}%`;
+      //長變化
+      item.style.height = `${size}%`;
+     });
+    }
+
+  </script>
+</body>
+
+</html>

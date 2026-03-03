@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI</title>
+    <style>
+        body{
+            background-color: aliceblue;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .box{
+            background-color: lightblue;
+            width: 50%;
+            margin-bottom: 20px;
+            border: 3px solid darkblue;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+        .text-title{
+            font-size: 32px;
+            position: absolute;
+            top: 20px;
+        }
+        span{
+            margin-bottom: 3px;
+        }
+        .ans{
+            display: flex;
+            line-height: 42px;
+
+        }
+        #result {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px 5px;
+        width: 80px;
+        height: 32px;
+        background-color: #f9f9f9;
+        font-weight: bold;
+        font-size: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: red;
+    }
+        table{
+           border-collapse: collapse; 
+           text-align: center;
+        }
+
+        table, td, tr{
+            border: 1px dashed white;
+            padding: 10px 20px 10px 20px;
+        }
+
+        thead tr th{
+            background-color: #ffacbb;
+        }
+
+        tbody tr:nth-of-type(odd){
+            background-color: #fffee1;
+        }
+
+        tbody tr:nth-of-type(even){
+            background-color:#fed7ee;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="text-title">BMI計算器</div>
+        <br><br>
+        <div class="text-bmi">BMI = 體重(公斤) / 身高的平方(公尺)</div>
+        <br>
+        <span>身高:&nbsp<input id="height" type="number" min="1"  placeholder="請輸入身高">公分</span>
+        <span>體重:&nbsp<input id="weight" type="number" min="1"  placeholder="請輸入體重">公斤</span>
+        <br>
+        <div class="button">
+        <button id="calc" type="button">計算</button>
+        <button id="reset" type="button">重新填寫</button>
+        </div>
+        <br>
+        <div class="ans">結果:&nbsp
+            <div id="result"></div>
+        </div>
+    </div>
+        <!-- ========表格========== -->
+        <table>
+            
+            <thead>
+                
+                <tr>
+                    <th colspan="3">
+                        BMI值
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>性別</td>
+                    <td>男性</td>
+                    <td>女性</td>
+                </tr>
+                <tr>
+                    <td>體重過輕</td>
+                    <td>&lt 20</td>
+                    <td>&lt 19</td>
+                </tr>
+                <tr>
+                    <td>正常範圍</td>
+                    <td>20~25</td>
+                    <td>19~25</td>
+                </tr>
+                <tr>
+                    <td>體重過重</td>
+                    <td>25~30</td>
+                    <td>25~30</td>
+                </tr>
+                <tr>
+                    <td>肥胖</td>
+                    <td>30~40</td>
+                    <td>30~40</td>
+                </tr>
+                <tr>
+                    <td>病態肥胖</td>
+                    <td> &gt 40</td>
+                    <td> &gt 40</td>
+                </tr>
+            </tbody>
+        </table>
+    
+
+
+    <script>
+        let inputHeight =document.querySelector('#height');
+        let inputWeight =document.querySelector('#weight');
+        let calcBtn =document.querySelector('#calc');
+        let resetBnt =document.querySelector('#reset');
+        let result =document.querySelector('#result')
+        
+        calcBtn.addEventListener('click',function() {
+            let heightCm = (inputHeight.value) / 100;
+            let heightM = heightCm * heightCm; 
+            let weight = (inputWeight.value);
+            let bmi = weight / heightM;
+            result.textContent = bmi.toFixed(2);  
+
+            if (!heightCm) {
+                alert('請填身高')
+                result.textContent = ''
+            }
+            else if(!weight){
+                alert('請填體重')
+                result.textContent = ''
+            }
+            
+            
+        });
+
+        resetBnt.addEventListener('click',function(){
+            inputHeight.value = '';
+            inputWeight.value = '';
+            result.textContent = '';
+        });
+    </script>
+
+</body>
+</html>

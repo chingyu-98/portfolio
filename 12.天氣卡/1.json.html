@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //json 一種輕量化字串格式，主要用來傳輸資料
+        //json內要用雙引號 ""
+        const json1 = `{ "id":1, "name":"Amy"}`;
+        const json2 = `[1, 2, 3]`;//非陣列，為字串
+        const json3 = `["banana", "apple", "pieapple"]`;
+        const json4 =`[{ "id":1, "name":"Bella"}, {"id":2, "name":"Cindy"}]`
+        console.log(typeof json4); //string  字串
+        console.log(json3);//字串
+
+        //將jason格式轉換為可用的js資料
+        //JSON.parse       parse剖析
+        const jsonData1 = JSON.parse(json1);
+        console.log(jsonData1);//陣列
+        console.log(jsonData1.name);//Amy
+        console.log(jsonData1["name"]);//Amy
+
+        const jsonData3 = JSON.parse(json3);
+        console.log(jsonData3);//陣列
+        console.log(jsonData3[1]);//apple
+
+        const jsonData4 = JSON.parse(json4);
+        console.log(jsonData4);//陣列
+         console.log(jsonData4[1]);//陣列中的陣列
+
+         //將可用的js資料，轉換為json模式
+         const newJson4 = JSON.stringify(jsonData4);
+         console.log(newJson4);//字串
+         
+   
+   </script>
+</body>
+</html>

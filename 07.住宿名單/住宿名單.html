@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宿舍名單</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#room-list {
+  padding: 20px;
+  
+}
+
+#container {
+  font-size: 18px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#edit-area {
+  width: fit-content;
+  border: 4px solid black;
+  margin: 0 auto 20px auto; 
+  padding: 20px;
+
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn{
+  text-align: center;
+}
+
+.room-container {
+  width: calc(100% / 3);
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid rgba(0, 0, 0, 0.612);
+  padding: 8px;
+}
+
+.roomer-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gender-container {
+  display: flex;
+  gap: 16px;
+}
+</style>
+</head>
+<body>
+<section id="room-list">
+<form id="edit-area">
+  <div class="roomer-area">
+    <div>請先點擊編輯鍵選取房號</div>
+    <div>*房號：
+      <span id="room-number"></span>
+    </div>
+    <div>
+      <label for="name">
+        *姓名：
+        <input type="text" id="name">
+      </label>
+    </div>
+    <div class="gender-container">
+      <span> &nbsp; 性別：</span>
+      <label for="male">
+        <input type="radio" name="gender" id="male" value="男">
+        男
+      </label>
+      <label for="female">
+        <input type="radio" name="gender" id="female" value="女">
+        女
+      </label>
+      <label for="other">
+        <input type="radio" name="gender" id="other" value="其他">
+        其他
+      </label>
+    </div>
+    <div>
+      <label for="phone">
+        *手機：
+        <input type="tel" id="phone">
+      </label>
+    </div>
+    <div>
+      <label for="email">
+        &nbsp;信箱：
+        <input type="email" id="email">
+      </label>
+    </div>
+    <div>
+      <label for="date">
+        *入住日期：
+        <input type="date" id="date">
+      </label>
+    </div>
+  </div>
+  <br>
+  <button type="button" id="submit-btn" class="submit-btn">儲存</button>
+</form>
+
+<hr>
+<br>
+<div>
+<h1>宿舍名單</h1>
+
+<div id="container">
+</div>
+</section>
+
+<script>
+  const container =document.querySelector('#container')
+  const roomTotal = 10;//房間總數
+  const startNum = 101;//房間號起始數
+  const roomAll =[];//房間陣列
+  let selectRoom = null;//選擇的房間
+  //編輯區
+  const roomNumOutput =document.querySelector('#room-number');
+  const nameInput =document.querySelector('#name');
+  const genderInput =document.querySelectorAll('input[name="gender"]');
+  const phoneInput =document.querySelector('#phone');
+  const emailInput =document.querySelector('#email');
+  const dateInput =document.querySelector('#date');
+  const submitBtn =document.querySelector('#submit-btn');
+
+
+  //1.產生所有空房資料
+  initialize ();
+  //2.顯示房間住況畫面
+  render ();
+  //3.綁定編輯按鈕監聽器
+  editBtnListener ();
+  //4.user按儲存，更新資料到名單內
+  saveBtn();
+
+//產生所有空房資料
+  function initialize () {
+    for (let i = 0; i < roomTotal; i++){
+  //每次推間房間資料進去
+    roomAll.push({
+        id: startNum + i,
+        name: '',
+        gender:'',
+        phone:'',
+        email:'',
+        date:'',
+     });
+  };
+  };
+ 
+//顯示房間住況畫面
+function render(){
+  let content = '';
+  roomAll.forEach( room => {
+    content += `
+    <article class="room-container">
+    <ul class="roomer-area">
+    <li>房號:${room.id}</li>
+    <li>姓名:${room.name}</li>
+    <li>性別:${room.gender}</li>
+    <li>手機:${room.phone}</li>
+    <li>信箱:${room.email}</li>
+    <li>入住時間:${room.date}</li>
+    </ul>
+    <div>
+    <button type="button" class="edit-btn" data-id="${room.id}">編輯</button>
+    </div>
+    </article>
+    `
+  });
+  container.innerHTML = content;
+};
+
+//綁定全部編輯按鈕監聽器
+function editBtnListener (){
+  const editBtnAll =document.querySelectorAll('.edit-btn');
+  editBtnAll.forEach(btn => {
+    //按編輯按鈕後回傳整間房間資料(id相同的return)
+    btn.addEventListener('click', () => {
+      selectRoom = roomAll.find(room =>{
+        //data-xxx 取得方法 .dataset.xxx
+        //Number()將字串變成數字
+        return room.id === Number(btn.dataset.id);
+      });
+      //3-1.回傳的全部資料放到編輯區
+      setSelectRoomData();
+    });
+  });
+};
+
+//回傳的全部資料放到編輯區
+function setSelectRoomData(){
+  roomNumOutput.textContent = selectRoom.id;
+  nameInput.value = selectRoom.name;
+  
+  genderInput.forEach(genderChoice => {
+     if(genderChoice.checked){
+      selectRoom.gender = genderChoice.value;
+     };
+  });
+  phoneInput.value = selectRoom.phone;
+  emailInput.value =selectRoom.email;
+  dateInput.value =selectRoom.date;
+};
+
+
+function saveBtn(){
+  submitBtn.addEventListener('click', () => {
+        if(!selectRoom){
+          alert('請先選擇要編輯的房間'); 
+          return;
+        }else if(!nameInput.value || !phoneInput.value || !dateInput.value ){
+          alert('請先填寫房客資訊'); 
+          return;
+        }
+      //更新選擇房間資料
+      selectRoom.name = nameInput.value;
+      selectRoom.phone = phoneInput.value;
+      selectRoom.email = emailInput.value;
+      selectRoom.date = dateInput.value;
+
+      genderInput.forEach(gender => {
+        if(gender.checked){
+          selectRoom.gender = gender.value;
+        }
+      });
+
+    //顯示畫面
+    render();
+    //清空編輯區
+    clearInput();
+  });
+};
+
+function clearInput(){
+  //清空編輯區user輸入內容
+  roomNumOutput.textContent = '';
+  nameInput.value = '';
+  genderInput.forEach(gender => gender.checked = false);
+  phoneInput.value = '';
+  emailInput.value ='';
+  dateInput.value ='';
+  selectRoom = null;
+  editBtnListener ();
+};
+
+</script>
+</body>
+</html>

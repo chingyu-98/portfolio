@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>猜拳遊戲</title>
+
+  <style>
+    * {
+      font-size: 20px;
+    }
+
+    body{
+      background-color: #4a7271;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    section{
+      background-color: #598987;
+      width: 50%;
+      height: 50%;
+      border: 5px dashed white;
+      box-shadow: 10px 10px 300px #a2d3b8;
+
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    
+    }
+    
+    .ans{
+      margin-bottom: 5px;
+    }
+
+    .btn {
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .active {
+      background-color: #ff6670;
+    }
+
+    #action {
+      margin-bottom: 14px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #result{
+      font-size: 32px;
+      font-weight: bold;
+      color: #ff6670;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div class="container">
+      <button type="button" id="btn-1" class="btn">✌️</button>
+      <button type="button" id="btn-2" class="btn ">✊</button>
+      <button type="button" id="btn-3" class="btn">🖐️</button>
+    </div>
+
+    <button type="button" id="action">確認出拳</button>
+
+    <div class="ans">
+      <b>👤你出:</b>
+      <span id="user-result"></span>
+    </div>
+    
+    <div class="ans">
+      <b>🤖電腦出:</b>
+      <span id="computer-result"></span>
+    </div>
+    
+    <div class="ans">
+      <b>🏆結果:</b>
+      <span id="result"></span>
+    </div>
+  </section>
+
+  <script>
+    let btn1 =document.querySelector('#btn-1');
+    let btn2 =document.querySelector('#btn-2');
+    let btn3 =document.querySelector('#btn-3');
+    let action =document.querySelector('#action')
+    let computerResult =document.querySelector('#computer-result')
+    let result =document.querySelector('#result')
+    let userResult =document.querySelector('#user-result')
+
+
+    // 點擊我的按紐
+    let select = '';
+    btn1.addEventListener('click', function(){  
+      btn2.classList.remove('active');
+      btn3.classList.remove('active');
+      // 清除其他按鈕，後面再加顏色
+      btn1.classList.add('active')
+      select = 1 ;
+      userResult.textContent = '✌️';
+      console.log(select);
+      computerResult.textContent ='';
+      result.textContent='';
+    });
+    btn2.addEventListener('click', function(){
+      btn1.classList.remove('active');
+      btn3.classList.remove('active');
+      btn2.classList.add('active')
+     select = 2;
+     userResult.textContent = '✊';
+     console.log(select);
+     computerResult.textContent ='';
+     result.textContent='';
+    });
+    btn3.addEventListener('click', function(){
+      btn1.classList.remove('active');
+      btn2.classList.remove('active');
+      btn3.classList.add('active')
+      select = 3;
+      userResult.textContent = '🖐️';
+      console.log(select);
+      computerResult.textContent ='';
+      result.textContent='';
+    });
+    
+    // 點擊確定出拳
+    action.addEventListener('click', function(){  
+      // 電腦隨機出拳
+      const computer =Math.floor(Math.random() * 3 + 1); 
+      if (computer === 1) {
+        computerResult.textContent = '✌️';
+      } else if (computer === 2) {
+        computerResult.textContent = '✊';
+      } else if (computer === 3){
+        computerResult.textContent = '🖐️';
+      }       
+      // 判斷輸贏
+    if (select === computer) {
+      result.textContent = 'again';
+    } else if (
+      (select === 1 && computer === 3) ||
+      (select === 2 && computer === 1) ||
+      (select === 3 && computer === 2)
+    ) {
+      result.textContent = 'win！';
+    } else {
+      result.textContent = 'lose';
+    }
+
+    if (select === '') {
+      computerResult.textContent = '';
+      result.textContent = '';
+      alert("請先出拳！");
+    }
+  });
+  </script>
+</body>
+
+</html>
